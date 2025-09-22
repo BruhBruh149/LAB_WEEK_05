@@ -41,7 +41,10 @@ class MainActivity : AppCompatActivity() {
                 apiResponseView.text = "Request failed: ${t.localizedMessage}"
             }
 
-            override fun onResponse(call: Call<List<ImageData>>, response: Response<List<ImageData>>) {
+            override fun onResponse(
+                call: Call<List<ImageData>>,
+                response: Response<List<ImageData>>
+            ) {
                 if (response.isSuccessful) {
                     val first = response.body()?.firstOrNull()
                     val imageUrl = first?.imageUrl.orEmpty()
