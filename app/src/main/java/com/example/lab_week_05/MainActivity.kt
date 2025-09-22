@@ -9,7 +9,6 @@ import com.example.lab_week_05.api.CatApiService
 import com.example.lab_week_05.model.ImageData
 import retrofit2.*
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,14 +43,15 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<List<ImageData>>, response: Response<List<ImageData>>) {
                 if (response.isSuccessful) {
-                    val imageList = response.body()
-                    val firstImage = imageList?.firstOrNull()?.imageUrl.orEmpty()
-                    if (firstImage.isNotBlank()) {
-                        imageLoader.loadImage(firstImage, imageResultView)
-                    } else {
-                        Log.d(MAIN_ACTIVITY, "Missing image URL")
+                    val first = response.body()?.firstOrNull()
+                    val imageUrl = first?.imageUrl.orEmpty()
+
+                    if (imageUrl.isNotBlank()) {
+                        imageLoader.loadImage(imageUrl, imageResultView)
                     }
-                    apiResponseView.text = getString(R.string.image_placeholder, firstImage)
+                    val breedName = first?.breeds?.firstOrNull()?.name ?: "Unknown"
+                    apiResponseView.text = getString(R.string.cat_breed_placeholder, breedName)
+
                 } else {
                     apiResponseView.text = "Error: ${response.code()}"
                 }
