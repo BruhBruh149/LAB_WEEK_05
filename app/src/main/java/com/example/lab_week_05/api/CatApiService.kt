@@ -10,5 +10,5 @@ interface CatApiService {
     fun searchImages(
         @Query("limit") limit: Int,
         @Query("size") format: String
-    ): Call<List<ImageData>>   // Part 2: Moshi-mapped model list
+    ): Call<List<ImageData>>
 }
